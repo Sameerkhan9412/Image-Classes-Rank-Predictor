@@ -7,17 +7,17 @@ export const metadata = {
   description: "Predict your rank instantly",
 };
 
-export default function RootLayout({
-  children,
-}: {
+export default function RootLayout({ children }:{
   children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className="bg-white text-dark">
-        <Navbar/>
+      <body className="bg-[#0f0f0f] text-white">
+
+        <Navbar />
         {children}
-        <Footer/>
+        <Footer />
+
       </body>
     </html>
   );

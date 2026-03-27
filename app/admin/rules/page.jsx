@@ -9,9 +9,10 @@ export default function AdminRulesPage() {
   const [form, setForm] = useState({
     university: "AMU",
     className: "11",
-    stream: "PCM",
+    stream: "",
     category: "General",
     gender: "All",
+    quota: "External", // 🔥 NEW
   });
 
   const [ranges, setRanges] = useState([
@@ -23,9 +24,11 @@ export default function AdminRulesPage() {
     className: "",
     category: "",
     gender: "",
+    quota: "", // 🔥 NEW
     sort: "latest",
   });
 
+  // 📥 FETCH
   const fetchRules = async () => {
     const res = await fetch("/api/admin/rules");
     const data = await res.json();
@@ -36,6 +39,7 @@ export default function AdminRulesPage() {
     fetchRules();
   }, []);
 
+  // ➕ ADD / UPDATE
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -45,10 +49,16 @@ export default function AdminRulesPage() {
 
     const method = editId ? "PUT" : "POST";
 
+    const payload = {
+      ...form,
+      stream: form.className === "11" ? form.stream : "",
+      ranges,
+    };
+
     const res = await fetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, ranges }),
+      body: JSON.stringify(payload),
     });
 
     const data = await res.json();
@@ -65,26 +75,33 @@ export default function AdminRulesPage() {
     setForm({
       university: "AMU",
       className: "11",
-      stream: "PCM",
+      stream: "",
       category: "General",
       gender: "All",
+      quota: "External",
     });
     setRanges([{ minMarks: "", maxMarks: "", minRank: "", maxRank: "" }]);
   };
 
+  // ✏️ EDIT
   const handleEdit = (rule) => {
     setEditId(rule._id);
     setForm(rule);
     setRanges(rule.ranges);
   };
 
+  // ❌ DELETE
   const handleDelete = async (id) => {
     await fetch(`/api/admin/rules/${id}`, { method: "DELETE" });
     fetchRules();
   };
 
+  // ➕ RANGE
   const addRow = () => {
-    setRanges([...ranges, { minMarks: "", maxMarks: "", minRank: "", maxRank: "" }]);
+    setRanges([
+      ...ranges,
+      { minMarks: "", maxMarks: "", minRank: "", maxRank: "" },
+    ]);
   };
 
   const removeRow = (i) => {
@@ -97,73 +114,135 @@ export default function AdminRulesPage() {
     setRanges(updated);
   };
 
-  const filteredRules = rules
-    .filter((rule) => {
-      return (
-        (!filters.university || rule.university === filters.university) &&
-        (!filters.className || rule.className === filters.className) &&
-        (!filters.category || rule.category === filters.category) &&
-        (!filters.gender || rule.gender === filters.gender)
-      );
-    })
-    .sort((a, b) =>
-      filters.sort === "latest"
-        ? new Date(b.createdAt) - new Date(a.createdAt)
-        : new Date(a.createdAt) - new Date(b.createdAt)
+  // 🔍 FILTER
+  const filteredRules = rules.filter((rule) => {
+    return (
+      (!filters.university || rule.university === filters.university) &&
+      (!filters.className || rule.className === filters.className) &&
+      (!filters.category || rule.category === filters.category) &&
+      (!filters.gender ||
+        filters.gender === "All" ||
+        rule.gender === filters.gender) &&
+      (!filters.quota || rule.quota === filters.quota)
     );
+  });
 
   return (
-    <div className="min-h-screen bg-[#0f0f0f] text-white p-6 grid grid-cols-2 gap-6">
+    <div className="min-h-screen bg-[#0f0f0f] text-white p-6">
 
-      {/* FORM */}
-      <div className="bg-[#1a1a1a] p-6 rounded-2xl shadow-xl border border-[#2a2a2a]">
-        <h2 className="text-2xl font-bold mb-4 text-red-500">
+      <h1 className="text-3xl font-bold text-red-500 mb-6">
+        Rule Management
+      </h1>
+
+      {/* 🔥 ADD RULE */}
+      <div className="bg-[#1a1a1a] p-6 rounded-xl border border-[#2a2a2a] mb-8">
+
+        <h2 className="text-xl mb-4 text-red-400">
           {editId ? "Edit Rule" : "Add Rule"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-3">
 
-          {/* Inputs */}
-          {["university", "className", "category", "gender"].map((field) => (
-            <select
-              key={field}
-              value={form[field]}
-              onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-              className="w-full bg-[#0f0f0f] border border-[#2a2a2a] p-2 rounded-lg"
-            >
-              {field === "university" && ["AMU", "JMI"].map(v => <option key={v}>{v}</option>)}
-              {field === "className" && ["6","9","11"].map(v => <option key={v}>{v}</option>)}
-              {field === "category" && ["General","OBC"].map(v => <option key={v}>{v}</option>)}
-              {field === "gender" && ["All","Male","Female"].map(v => <option key={v}>{v}</option>)}
-            </select>
-          ))}
+          {/* 🔥 SELECTS */}
+          <div className="grid md:grid-cols-6 gap-2">
 
-          {/* Stream */}
-          {form.className === "11" && (
+            {/* UNIVERSITY */}
             <select
-              value={form.stream}
-              onChange={(e)=>setForm({...form, stream:e.target.value})}
-              className="w-full bg-[#0f0f0f] border border-[#2a2a2a] p-2 rounded-lg"
+              value={form.university}
+              onChange={(e) =>
+                setForm({ ...form, university: e.target.value })
+              }
+              className="input"
             >
-              <option>PCM</option>
-              <option>PCB</option>
+              <option>AMU</option>
+              <option>JMI</option>
             </select>
-          )}
 
-          {/* Ranges */}
+            {/* CLASS */}
+            <select
+              value={form.className}
+              onChange={(e) =>
+                setForm({ ...form, className: e.target.value })
+              }
+              className="input"
+            >
+              <option value="6">Class 6</option>
+              <option value="9">Class 9</option>
+              <option value="11">Class 11</option>
+            </select>
+
+            {/* CATEGORY */}
+            <select
+              value={form.category}
+              onChange={(e) =>
+                setForm({ ...form, category: e.target.value })
+              }
+              className="input"
+            >
+              <option>General</option>
+              <option>OBC</option>
+              <option>SC</option>
+              <option>ST</option>
+            </select>
+
+            {/* GENDER */}
+            <select
+              value={form.gender}
+              onChange={(e) =>
+                setForm({ ...form, gender: e.target.value })
+              }
+              className="input"
+            >
+              <option>All</option>
+              <option>Male</option>
+              <option>Female</option>
+            </select>
+
+            {/* 🔥 QUOTA */}
+            <select
+              value={form.quota}
+              onChange={(e) =>
+                setForm({ ...form, quota: e.target.value })
+              }
+              className="input"
+            >
+              <option>Internal</option>
+              <option>External</option>
+            </select>
+
+            {/* STREAM */}
+            {form.className === "11" && (
+              <select
+                value={form.stream}
+                onChange={(e) =>
+                  setForm({ ...form, stream: e.target.value })
+                }
+                className="input"
+              >
+                <option value="">Stream</option>
+                <option>PCM</option>
+                <option>PCB</option>
+                <option>Diploma</option>
+              </select>
+            )}
+
+          </div>
+
+          {/* 🔥 RANGES */}
           {ranges.map((r, i) => (
             <div key={i} className="grid grid-cols-5 gap-2">
-              {["minMarks","maxMarks","minRank","maxRank"].map((field) => (
+              {["minMarks", "maxMarks", "minRank", "maxRank"].map((field) => (
                 <input
                   key={field}
                   name={field}
                   value={r[field]}
-                  onChange={(e)=>handleRangeChange(i,e)}
+                  onChange={(e) => handleRangeChange(i, e)}
                   placeholder={field}
-                  className="bg-[#0f0f0f] border border-[#2a2a2a] p-2 rounded"
+                  className="input"
                 />
               ))}
-              <button type="button" onClick={()=>removeRow(i)} className="text-red-500">
+
+              <button type="button" onClick={() => removeRow(i)}>
                 ❌
               </button>
             </div>
@@ -172,64 +251,93 @@ export default function AdminRulesPage() {
           <button
             type="button"
             onClick={addRow}
-            className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
+            className="bg-red-600 px-3 py-1 rounded"
           >
             + Add Range
           </button>
 
-          <button className="w-full bg-red-600 hover:bg-red-700 py-2 rounded-lg font-semibold">
+          <button className="w-full bg-red-600 py-2 rounded">
             {editId ? "Update Rule" : "Add Rule"}
           </button>
         </form>
       </div>
 
-      {/* LIST */}
-      <div className="bg-[#1a1a1a] p-6 rounded-2xl shadow-xl border border-[#2a2a2a]">
-        <h2 className="text-2xl font-bold mb-4 text-red-500">All Rules</h2>
+      {/* 🔥 FILTERS */}
+      <div className="grid md:grid-cols-5 gap-2 mb-6">
 
-        {/* Filters */}
-        <div className="grid grid-cols-2 gap-2 mb-4">
-          {["university","className","category","gender"].map((f)=>(
-            <select
-              key={f}
-              onChange={(e)=>setFilters({...filters, [f]:e.target.value})}
-              className="bg-[#0f0f0f] border border-[#2a2a2a] p-2 rounded"
-            >
-              <option value="">All {f}</option>
-              {f==="university" && ["AMU","JMI"].map(v=><option key={v}>{v}</option>)}
-              {f==="className" && ["6","9","11"].map(v=><option key={v}>{v}</option>)}
-              {f==="category" && ["General","OBC"].map(v=><option key={v}>{v}</option>)}
-              {f==="gender" && ["All","Male","Female"].map(v=><option key={v}>{v}</option>)}
-            </select>
-          ))}
-        </div>
+        <select onChange={(e)=>setFilters({...filters, university:e.target.value})} className="input">
+          <option value="">University</option>
+          <option>AMU</option>
+          <option>JMI</option>
+        </select>
 
-        {/* Cards */}
-        {filteredRules.map(rule => (
-          <div key={rule._id} className="bg-[#0f0f0f] p-4 mb-3 rounded-lg border border-[#2a2a2a] hover:border-red-500 transition">
+        <select onChange={(e)=>setFilters({...filters, className:e.target.value})} className="input">
+          <option value="">Class</option>
+          <option>6</option>
+          <option>9</option>
+          <option>11</option>
+        </select>
 
-            <p className="font-semibold text-red-400">
-              {rule.university} | {rule.className} | {rule.category}
+        <select onChange={(e)=>setFilters({...filters, category:e.target.value})} className="input">
+          <option value="">Category</option>
+          <option>General</option>
+          <option>OBC</option>
+          <option>SC</option>
+          <option>ST</option>
+        </select>
+
+        <select onChange={(e)=>setFilters({...filters, gender:e.target.value})} className="input">
+          <option value="">Gender</option>
+          <option>All</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+
+        <select onChange={(e)=>setFilters({...filters, quota:e.target.value})} className="input">
+          <option value="">Quota</option>
+          <option>Internal</option>
+          <option>External</option>
+        </select>
+
+      </div>
+
+      {/* 🔥 RULE LIST */}
+      <div className="grid md:grid-cols-2 gap-4">
+        {filteredRules.map((rule) => (
+          <div key={rule._id} className="bg-[#1a1a1a] p-4 rounded">
+
+            <h3 className="text-red-400">
+              {rule.university} | Class {rule.className}
+            </h3>
+
+            <p className="text-sm text-gray-400">
+              {rule.stream || "N/A"} | {rule.category} | {rule.gender} | {rule.quota}
             </p>
 
-            {rule.ranges.map((r,i)=>(
-              <div key={i} className="text-sm text-gray-300">
+            {rule.ranges.map((r, i) => (
+              <div key={i}>
                 {r.minMarks}-{r.maxMarks} → {r.minRank}-{r.maxRank}
               </div>
             ))}
 
             <div className="flex gap-2 mt-2">
-              <button onClick={()=>handleEdit(rule)} className="bg-yellow-500 px-2 py-1 rounded text-black">
-                Edit
-              </button>
-              <button onClick={()=>handleDelete(rule._id)} className="bg-red-600 px-2 py-1 rounded">
-                Delete
-              </button>
+              <button onClick={() => handleEdit(rule)}>Edit</button>
+              <button onClick={() => handleDelete(rule._id)}>Delete</button>
             </div>
+
           </div>
         ))}
-
       </div>
+
+      <style jsx>{`
+        .input {
+          width: 100%;
+          background: #0f0f0f;
+          border: 1px solid #2a2a2a;
+          padding: 8px;
+          border-radius: 6px;
+        }
+      `}</style>
 
     </div>
   );

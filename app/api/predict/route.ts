@@ -14,6 +14,7 @@ type PredictBody = {
   exam: string;
   className: string | number;
   stream?: string;
+  quota?: string;
   marks: number | string;
   isImageStudent?: boolean;
   rollNo?: string;
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     const body: PredictBody = await req.json();
+    // console.log("i am body",body)
 
     let {
       name,
@@ -38,6 +40,7 @@ export async function POST(req: NextRequest) {
       marks,
       isImageStudent,
       rollNo,
+      quota,
       gender,
       category,
       isPublicConsent,
@@ -65,6 +68,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    // console.log("my body",body)
+
 
     // 🔥 OTP check
     if (!isVerified(email)) {
@@ -83,6 +88,7 @@ export async function POST(req: NextRequest) {
       ...(className === "11" && stream ? { stream } : {}),
       ...(category && { category }),
       ...(gender && { gender }),
+      ...(quota && { quota })
     }).lean();
 
     // fallback 1 → gender = All
@@ -92,6 +98,7 @@ export async function POST(req: NextRequest) {
         className,
         ...(className === "11" && stream ? { stream } : {}),
         ...(category && { category }),
+        ...(quota && { quota }),
         gender: "All",
       }).lean();
     }
@@ -102,6 +109,7 @@ export async function POST(req: NextRequest) {
         university: exam,
         className,
         ...(className === "11" && stream ? { stream } : {}),
+        ...(quota && { quota }),
       }).lean();
     }
 

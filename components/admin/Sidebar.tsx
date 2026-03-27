@@ -13,11 +13,11 @@ export default function Sidebar() {
   };
 
   const linkClass = (path: string) =>
-    `px-3 py-2 rounded-lg transition ${
-      pathname === path
-        ? "bg-primary text-white"
-        : "hover:bg-gray-700"
-    }`;
+  `px-3 py-2 rounded-lg transition font-medium ${
+    pathname === path
+      ? "bg-red-500 text-white shadow-md"
+      : "text-gray-300 hover:bg-[#1a1a1a] hover:text-white"
+  }`;
 
   return (
     <div className="w-64 bg-dark text-white p-4 flex flex-col justify-between min-h-screen">

@@ -10,10 +10,26 @@ const rangeSchema = new mongoose.Schema({
 const ruleSchema = new mongoose.Schema(
   {
     university: String,
+
     className: String,
-    stream: String,
+
+    stream: {
+      type: String,
+      default: "", // only for class 11
+    },
+
     category: String,
-    gender: { type: String, default: "All" },
+
+    gender: {
+      type: String,
+      default: "All",
+    },
+
+    // 🔥 NEW FIELD
+    quota: {
+      type: String, // Internal / External
+      default: "External",
+    },
 
     ranges: [rangeSchema],
   },
