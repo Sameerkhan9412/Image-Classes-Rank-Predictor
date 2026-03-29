@@ -36,8 +36,8 @@ export default function Sidebar() {
             Rules
           </Link>
 
-          <Link href="/admin/predictions" className={linkClass("/admin/predictions")}>
-            Predictions
+          <Link href="/admin/answer-keys" className={linkClass("/admin/predictions")}>
+            Answer Keys
           </Link>
 
           <Link href="/admin/students" className={linkClass("/admin/users")}>

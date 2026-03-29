@@ -184,7 +184,7 @@ export default function Home() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
             </span>
-            <span className="text-sm text-gray-300">Trusted by 10,000+ Students</span>
+            <span className="text-sm text-gray-300">Trusted by 70,000+ Students</span>
           </div>
 
           {/* Main Heading */}
@@ -194,7 +194,7 @@ export default function Home() {
             </span>
             <br />
             <span className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent animate-gradient">
-              AMU & JMI Rank
+              AMU & JMI Result
             </span>
           </h1>
 
@@ -209,7 +209,7 @@ export default function Home() {
             <Link href="/rank-predictor">
               <button className="group relative px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl font-bold text-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_20px_40px_rgba(239,68,68,0.3)]">
                 <span className="relative z-10 flex items-center gap-2">
-                  🚀 Predict My Rank
+                  🚀 Predict My Result
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                   </svg>
@@ -232,10 +232,10 @@ export default function Home() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto animate-fadeInUp" style={{ animationDelay: "0.6s" }}>
             {[
-              { value: 10000, suffix: "+", label: "Students" },
+              { value: 80000, suffix: "+", label: "Students" },
               { value: 95, suffix: "%", label: "Accuracy" },
               { value: 50000, suffix: "+", label: "Predictions" },
-              { value: 4.9, suffix: "★", label: "Rating" },
+              { value: 4, suffix: "★", label: "Rating" },
             ].map((stat, i) => (
               <div key={i} className="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:border-red-500/50 transition-all duration-300 hover:scale-105">
                 <p className="text-3xl md:text-4xl font-black bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
@@ -260,7 +260,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <p className="text-center text-gray-500 text-sm mb-8">TRUSTED BY STUDENTS FROM</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-            {["AMU", "JMI", "Delhi", "UP", "Bihar", "MP"].map((item, i) => (
+            {["AMU", "JMI","Aligarh", "Delhi", "UP", "Bihar", "MP"].map((item, i) => (
               <div key={i} className="text-2xl font-bold text-gray-600 hover:text-red-500 transition-colors cursor-default">
                 {item}
               </div>
@@ -283,7 +283,7 @@ export default function Home() {
               </span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-              Everything you need to predict your rank and prepare better for your entrance exams.
+              Everything you need to predict your entrance result and prepare better for your entrance exams.
             </p>
           </div>
 
@@ -341,7 +341,7 @@ export default function Home() {
             {[
               { step: "01", title: "Enter Details", desc: "Fill in your marks, class, and other details", icon: "📝" },
               { step: "02", title: "Verify Email", desc: "Quick OTP verification for security", icon: "✉️" },
-              { step: "03", title: "Get Rank", desc: "Instant AI-powered rank prediction", icon: "🎯" },
+              { step: "03", title: "Get Result", desc: "Instant AI-powered rank prediction", icon: "🎯" },
             ].map((item, i) => (
               <div key={i} className="relative text-center group">
                 {/* Step Number */}
@@ -561,7 +561,7 @@ export default function Home() {
           <h2 className="text-4xl md:text-6xl font-black mb-6">
             Ready to Know Your{" "}
             <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
-              Rank?
+              Result?
             </span>
           </h2>
 
@@ -583,59 +583,6 @@ export default function Home() {
           </p>
         </div>
       </section>
-
-      {/* 🔥 FOOTER */}
-      <footer className="border-t border-white/10 py-16 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-            {/* Logo & About */}
-            <div className="md:col-span-2">
-              <h3 className="text-2xl font-black bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent mb-4">
-                IMAGE CLASSES
-              </h3>
-              <p className="text-gray-400 mb-6 max-w-md">
-                Your trusted partner for AMU & JMI entrance exam preparation. 
-                Accurate predictions, expert guidance, and comprehensive resources.
-              </p>
-              <div className="flex gap-4">
-                {["📘", "📸", "🐦", "📺"].map((icon, i) => (
-                  <button key={i} className="w-10 h-10 rounded-full bg-white/5 hover:bg-red-500/20 flex items-center justify-center transition-colors">
-                    {icon}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Links */}
-            <div>
-              <h4 className="font-bold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-400">
-                {["Rank Predictor", "Answer Keys", "Study Material", "Contact Us"].map((link, i) => (
-                  <li key={i} className="hover:text-red-400 cursor-pointer transition-colors">{link}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold mb-4">Exams</h4>
-              <ul className="space-y-2 text-gray-400">
-                {["AMU Class 6", "AMU Class 9", "AMU Class 11", "JMI Entrance"].map((link, i) => (
-                  <li key={i} className="hover:text-red-400 cursor-pointer transition-colors">{link}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Bottom */}
-          <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 text-sm">
-            <p>© 2025 Image Classes. All rights reserved.</p>
-            <div className="flex gap-6">
-              <span className="hover:text-white cursor-pointer transition-colors">Privacy Policy</span>
-              <span className="hover:text-white cursor-pointer transition-colors">Terms of Service</span>
-            </div>
-          </div>
-        </div>
-      </footer>
 
       {/* 🔥 ANIMATIONS */}
       <style jsx>{`

@@ -40,7 +40,7 @@ export default function Navbar() {
     { href: "/", label: "Home", icon: "🏠" },
     { href: "/rank-predictor", label: "Rank Predictor", icon: "🎯" },
     { href: "/answer-keys", label: "Answer Keys", icon: "📄" },
-    { href: "/check-selection", label: "Check Selection", icon: "✅", badge: "Soon" },
+    { href: "/check-selection", label: "Check result", icon: "✅", badge: "Soon" },
   ];
 
   const isActive = (href: string) => {
@@ -297,11 +297,11 @@ export default function Navbar() {
             onClick={() => setIsMobileMenuOpen(false)}
             className="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl font-semibold shadow-lg shadow-red-500/20 hover:scale-[1.02] active:scale-[0.98] transition-transform"
           >
-            <span>🎯 Predict Your Rank</span>
+            <span>🎯 Predict Your Entrance Result</span>
           </Link>
           
           <p className="text-center text-xs text-gray-500 mt-3">
-            Trusted by 10,000+ students
+            Trusted by 70,000+ students
           </p>
         </div>
       </div>
