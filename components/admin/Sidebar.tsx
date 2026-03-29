@@ -127,7 +127,7 @@ export default function Sidebar() {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-bold text-white truncate">Super Admin</p>
-                <p className="text-xs text-gray-500 truncate">admin@rankpredictor.com</p>
+                <p className="text-xs text-gray-500 truncate">imageclasses.info@gmail.com</p>
               </div>
               <button className="p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

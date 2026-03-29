@@ -41,6 +41,7 @@ export default function Navbar() {
     { href: "/rank-predictor", label: "Rank Predictor", icon: "🎯" },
     { href: "/answer-keys", label: "Answer Keys", icon: "📄" },
     { href: "/check-selection", label: "Check result", icon: "✅", badge: "Soon" },
+    { href: "/contact", label: "Contact Us", icon: "📞" },
   ];
 
   const isActive = (href: string) => {
